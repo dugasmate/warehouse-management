@@ -20,15 +20,36 @@ namespace WarehouseManagement.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var products = await productRepository.ReadAll();
+            var products = await productRepository.ReadAllAsync();
             return Ok(products);
+        }
+
+        [HttpGet("/{id}")]
+        public async Task<IActionResult> Read(int id)
+        {
+            var product = await productRepository.ReadAsync(id);
+            return Ok(product);
         }
 
         [HttpPost("/add")]
         public async Task<IActionResult> Add([FromBody] Product product)
         {
-            await productRepository.Create(product);
+            await productRepository.CreateAsync(product);
             return Ok();
+        }
+
+        [HttpGet("/delete/{id}")]
+        public async Task<IActionResult> Remove(int id)
+        {
+            await productRepository.DeleteAsync(id);
+            return RedirectToAction("");
+        }
+
+        [HttpPut("/update")]
+        public async Task<IActionResult> Update([FromBody]Product product)
+        {
+            await productRepository.UpdateAsync(product);
+            return RedirectToAction("");
         }
     }
 }

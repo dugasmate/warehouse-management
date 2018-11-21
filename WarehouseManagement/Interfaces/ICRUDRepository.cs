@@ -8,10 +8,10 @@ namespace WarehouseManagement.Interfaces
 {
     public interface ICRUDRepository<T> where T : class
     {
-        Task Create(T t);
-        Task<T> Read(int id);
-        Task<List<T>> ReadAll();
-        Task Update(T t);
-        Task Delete(int id);
+        Task CreateAsync(T t);
+        Task<T> ReadAsync(int id);
+        Task<List<T>> ReadAllAsync();
+        Task UpdateAsync(T t);
+        Task DeleteAsync(int id);
     }
 }
