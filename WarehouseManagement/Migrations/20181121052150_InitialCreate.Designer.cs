@@ -10,7 +10,7 @@ using WarehouseManagement;
 namespace WarehouseManagement.Migrations
 {
     [DbContext(typeof(StockContext))]
-    [Migration("20181120231503_InitialCreate")]
+    [Migration("20181121052150_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

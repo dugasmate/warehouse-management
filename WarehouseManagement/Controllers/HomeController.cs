@@ -45,10 +45,10 @@ namespace WarehouseManagement.Controllers
             return RedirectToAction("");
         }
 
-        [HttpPut("/update")]
+        [HttpPatch("/update")]
         public async Task<IActionResult> Update([FromBody]Product product)
         {
-            await productRepository.UpdateAsync(product);
+            await productRepository.UpdateAsync(product );
             return RedirectToAction("");
         }
     }
