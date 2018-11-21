@@ -17,11 +17,32 @@ namespace WarehouseManagement.Controllers
             this.statService = statService;
         }
 
-        [HttpGet("")]
+        [HttpGet("weight")]
         public async Task<IActionResult> Weight()
         {
             double totalWeight = await statService.TotalWeightCounter();
             return Ok(totalWeight);
+        }
+
+        [HttpGet("value")]
+        public async Task<IActionResult> Value()
+        {
+            int totalValue = await statService.TotalValueCounter();
+            return Ok(totalValue);
+        }
+
+        [HttpGet("quantity")]
+        public async Task<IActionResult> Quantity()
+        {
+            var stock = await statService.MostItemsFinder();
+            return Ok(stock);
+        }
+
+        [HttpGet("heaviest")]
+        public async Task<IActionResult> HeaviestItem()
+        {
+            var stock = await statService.HeaviestItemFinder();
+            return Ok(stock);
         }
     }
 }
