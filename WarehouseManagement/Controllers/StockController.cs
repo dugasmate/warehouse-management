@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WarehouseManagement.Interfaces;
 using WarehouseManagement.Models;
 using WarehouseManagement.Services;
 
@@ -12,31 +11,31 @@ namespace WarehouseManagement.Controllers
     [Route("stock")]
     public class StockController : Controller
     {
-        public StockService stockServices;
+        public StockService stockService;
 
-        public StockController(StockService stockServices)
+        public StockController(StockService stockService)
         {
-            this.stockServices = stockServices;
+            this.stockService = stockService;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Stock()
         {
-            var stock = await stockServices.ReadAllAsync();
+            var stock = await stockService.SortStockAsync();
             return Ok(stock);
         }
 
-        //[HttpPost("add")]
-        //public async Task<IActionResult> AddItem([FromBody]Stock item)
-        //{
-        //    await stockServices.CreateAsync(item);
-        //    return Ok();
-        //}
+        [HttpPost("add")]
+        public async Task<IActionResult> AddItem([FromBody]Stock item)
+        {
+            await stockService.AddItemAsync(item);
+            return Ok();
+        }
 
         //[HttpGet("delete/{id}")]
         //public async Task<IActionResult> RemoveItem(long id)
         //{
-        //    await stockServices.DeleteAsync(id);
+        //    await stockService.DeleteAsync(id);
         //    return RedirectToAction("");
         //}
     }

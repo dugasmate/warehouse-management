@@ -23,6 +23,7 @@ namespace WarehouseManagement
             services.AddScoped<ICRUDRepository<Product>, ProductRepository>();
             services.AddScoped<ICRUDRepository<Stock>, StockRepository>();
             services.AddScoped<StockService>();
+            services.AddScoped<StatService>();
             services.AddDbContext<WarehouseContext>(options =>
   options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Warehouse;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
         }

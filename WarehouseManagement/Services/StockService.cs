@@ -17,7 +17,7 @@ namespace WarehouseManagement.Services
             this.stockRepository = stockRepository;
         }
 
-        public async Task<List<SortedStock>> ReadAllAsync()
+        public async Task<List<SortedStock>> SortStockAsync()
         {
             var stock = await stockRepository.ReadAllAsync();
             var sortedList = stock.OrderBy(o => o.ProductId).ToList();
@@ -42,6 +42,11 @@ namespace WarehouseManagement.Services
                 }
             }
             return sortedStock;
+        }
+
+        public async Task AddItemAsync (Stock item)
+        {
+            await stockRepository.CreateAsync(item);
         }
     }
 }
