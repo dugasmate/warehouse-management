@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WarehouseManagement.Interfaces;
 using WarehouseManagement.Models;
-using WarehouseManagement.Repository;
+using WarehouseManagement.Repositories;
 
 namespace WarehouseManagement
 {
@@ -19,6 +19,7 @@ namespace WarehouseManagement
         {
             services.AddMvc();
             services.AddScoped<ICRUDRepository<Product>, ProductRepository>();
+            services.AddScoped<ICRUDRepository<Stock>, StockRepository>();
             services.AddDbContext<StockContext>(options =>
   options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Warehouse;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
         }

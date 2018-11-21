@@ -8,13 +8,16 @@ using WarehouseManagement.Models;
 
 namespace WarehouseManagement.Controllers
 {
-    public class HomeController : Controller
+    [Route("products")]
+    public class ProductController : Controller
     {
         public ICRUDRepository<Product> productRepository;
+        public ICRUDRepository<Stock> stockRepository;
 
-        public HomeController(ICRUDRepository<Product> productRepository)
+        public ProductController(ICRUDRepository<Product> productRepository, ICRUDRepository<Stock> stockRepository)
         {
             this.productRepository = productRepository;
+            this.stockRepository = stockRepository;
         }
 
         [HttpGet("")]
@@ -24,8 +27,15 @@ namespace WarehouseManagement.Controllers
             return Ok(products);
         }
 
-        [HttpGet("/{id}")]
-        public async Task<IActionResult> Read(int id)
+        [HttpGet("/stock")]
+        public async Task<IActionResult> Stock()
+        {
+            var products = await stockRepository.ReadAllAsync();
+            return Ok(products);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Read(long id)
         {
             var product = await productRepository.ReadAsync(id);
             return Ok(product);
@@ -38,8 +48,15 @@ namespace WarehouseManagement.Controllers
             return Ok();
         }
 
+        [HttpPost("/addstock")]
+        public async Task<IActionResult> AddStock([FromBody]Stock stock)
+        {
+            await stockRepository.CreateAsync(stock);
+            return Ok();
+        }
+
         [HttpGet("/delete/{id}")]
-        public async Task<IActionResult> Remove(int id)
+        public async Task<IActionResult> Remove(long id)
         {
             await productRepository.DeleteAsync(id);
             return RedirectToAction("");
@@ -48,7 +65,7 @@ namespace WarehouseManagement.Controllers
         [HttpPatch("/update")]
         public async Task<IActionResult> Update([FromBody]Product product)
         {
-            await productRepository.UpdateAsync(product );
+            await productRepository.UpdateAsync(product);
             return RedirectToAction("");
         }
     }

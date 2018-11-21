@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WarehouseManagement.Interfaces;
 using WarehouseManagement.Models;
 
-namespace WarehouseManagement.Repository
+namespace WarehouseManagement.Repositories
 {
     public class ProductRepository : ICRUDRepository<Product>
     {
@@ -22,7 +22,7 @@ namespace WarehouseManagement.Repository
         {
             bool isInvalid = false;
             PropertyInfo[] properties = typeof(Product).GetProperties();
-            for (int i = 1; i < properties.Length; i++)
+            for (int i = 1; i < properties.Length - 1; i++)
             {
                 if (properties[i].GetValue(product) == null || string.IsNullOrWhiteSpace(properties[i].GetValue(product).ToString()) || properties[i].GetValue(product).ToString() == "0")
                 {
@@ -37,7 +37,7 @@ namespace WarehouseManagement.Repository
             }
         }
 
-        public async Task<Product> ReadAsync(int id)
+        public async Task<Product> ReadAsync(long id)
         {
             var product = await stockContext.Products.FindAsync(id);
             return product;
@@ -73,7 +73,7 @@ namespace WarehouseManagement.Repository
             }
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(long id)
         {
             var productToDelete = await stockContext.Products.FindAsync(id);
             if (productToDelete != null)

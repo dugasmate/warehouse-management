@@ -9,9 +9,9 @@ namespace WarehouseManagement.Interfaces
     public interface ICRUDRepository<T> where T : class
     {
         Task CreateAsync(T t);
-        Task<T> ReadAsync(int id);
+        Task<T> ReadAsync(long id);
         Task<List<T>> ReadAllAsync();
         Task UpdateAsync(T t);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(long id);
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using WarehouseManagement.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace WarehouseManagement
+namespace WarehouseManagement.Context
 {
     public class StockContext : DbContext
     {

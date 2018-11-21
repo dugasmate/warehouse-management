@@ -11,12 +11,12 @@ namespace WarehouseManagement.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(nullable: false)
+                    ProductId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Price = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    Weight = table.Column<int>(nullable: false)
+                    Weight = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,7 +29,7 @@ namespace WarehouseManagement.Migrations
                 {
                     StockId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ProductId = table.Column<int>(nullable: true)
+                    ProductId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +39,7 @@ namespace WarehouseManagement.Migrations
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
