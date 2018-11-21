@@ -5,32 +5,39 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WarehouseManagement.Interfaces;
 using WarehouseManagement.Models;
+using WarehouseManagement.Services;
 
 namespace WarehouseManagement.Controllers
 {
     [Route("stock")]
     public class StockController : Controller
     {
-        public ICRUDRepository<Stock> stockRepository;
+        public StockService stockServices;
 
-        public StockController(ICRUDRepository<Stock> stockRepository)
+        public StockController(StockService stockServices)
         {
-            this.stockRepository = stockRepository;
+            this.stockServices = stockServices;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Stock()
         {
-            var products = await stockRepository.ReadAllAsync();
-            return Ok(products);
+            var stock = await stockServices.ReadAllAsync();
+            return Ok(stock);
         }
 
+        //[HttpPost("add")]
+        //public async Task<IActionResult> AddItem([FromBody]Stock item)
+        //{
+        //    await stockServices.CreateAsync(item);
+        //    return Ok();
+        //}
 
-        [HttpPost("/addstock")]
-        public async Task<IActionResult> AddStock([FromBody]Stock stock)
-        {
-            await stockRepository.CreateAsync(stock);
-            return Ok();
-        }
+        //[HttpGet("delete/{id}")]
+        //public async Task<IActionResult> RemoveItem(long id)
+        //{
+        //    await stockServices.DeleteAsync(id);
+        //    return RedirectToAction("");
+        //}
     }
 }

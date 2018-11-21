@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WarehouseManagement;
+using WarehouseManagement.Context;
 
 namespace WarehouseManagement.Migrations
 {
-    [DbContext(typeof(StockContext))]
+    [DbContext(typeof(WarehouseContext))]
     partial class StockContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

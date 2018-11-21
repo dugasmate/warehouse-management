@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WarehouseManagement;
+using WarehouseManagement.Context;
 
 namespace WarehouseManagement.Migrations
 {
-    [DbContext(typeof(StockContext))]
+    [DbContext(typeof(WarehouseContext))]
     [Migration("20181121123652_InitialCreate")]
     partial class InitialCreate
     {

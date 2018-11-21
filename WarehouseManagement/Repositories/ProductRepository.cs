@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using WarehouseManagement.Context;
 using WarehouseManagement.Interfaces;
 using WarehouseManagement.Models;
 
@@ -11,9 +12,9 @@ namespace WarehouseManagement.Repositories
 {
     public class ProductRepository : ICRUDRepository<Product>
     {
-        private StockContext stockContext;
+        private WarehouseContext stockContext;
 
-        public ProductRepository(StockContext stockContext)
+        public ProductRepository(WarehouseContext stockContext)
         {
             this.stockContext = stockContext;
         }

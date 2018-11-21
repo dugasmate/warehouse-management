@@ -12,60 +12,44 @@ namespace WarehouseManagement.Controllers
     public class ProductController : Controller
     {
         public ICRUDRepository<Product> productRepository;
-        public ICRUDRepository<Stock> stockRepository;
 
-        public ProductController(ICRUDRepository<Product> productRepository, ICRUDRepository<Stock> stockRepository)
+        public ProductController(ICRUDRepository<Product> productRepository)
         {
             this.productRepository = productRepository;
-            this.stockRepository = stockRepository;
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> ListProducts()
         {
             var products = await productRepository.ReadAllAsync();
             return Ok(products);
         }
 
-        [HttpGet("/stock")]
-        public async Task<IActionResult> Stock()
-        {
-            var products = await stockRepository.ReadAllAsync();
-            return Ok(products);
-        }
-
         [HttpGet("{id}")]
-        public async Task<IActionResult> Read(long id)
+        public async Task<IActionResult> SelectProduct(long id)
         {
             var product = await productRepository.ReadAsync(id);
             return Ok(product);
         }
 
-        [HttpPost("/add")]
-        public async Task<IActionResult> Add([FromBody] Product product)
+        [HttpPost("add")]
+        public async Task<IActionResult> AddProduct([FromBody] Product product)
         {
             await productRepository.CreateAsync(product);
             return Ok();
         }
 
-        [HttpPost("/addstock")]
-        public async Task<IActionResult> AddStock([FromBody]Stock stock)
+        [HttpPatch("update")]
+        public async Task<IActionResult> UpdateProduct([FromBody]Product product)
         {
-            await stockRepository.CreateAsync(stock);
-            return Ok();
-        }
-
-        [HttpGet("/delete/{id}")]
-        public async Task<IActionResult> Remove(long id)
-        {
-            await productRepository.DeleteAsync(id);
+            await productRepository.UpdateAsync(product);
             return RedirectToAction("");
         }
 
-        [HttpPatch("/update")]
-        public async Task<IActionResult> Update([FromBody]Product product)
+        [HttpGet("delete/{id}")]
+        public async Task<IActionResult> RemoveProduct(long id)
         {
-            await productRepository.UpdateAsync(product);
+            await productRepository.DeleteAsync(id);
             return RedirectToAction("");
         }
     }
