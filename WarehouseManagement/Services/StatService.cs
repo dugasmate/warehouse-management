@@ -14,11 +14,28 @@ namespace WarehouseManagement.Services
         public StockService stockService;
         public ICRUDRepository<Product> productRepository;
 
-        public StatService (ICRUDRepository<Stock> stockRepository, StockService stockService, ICRUDRepository<Product> productRepository)
+        public StatService(ICRUDRepository<Stock> stockRepository, StockService stockService, ICRUDRepository<Product> productRepository)
         {
             this.stockRepository = stockRepository;
             this.stockService = stockService;
             this.productRepository = productRepository;
+        }
+
+
+        public async Task<Stats> MakeStatistics()
+        {
+            double totalWeight = await TotalWeightCounter();
+            int totalValue = await TotalValueCounter();
+            var maxQuantity = await MostItemsFinder();
+            var heaviestProduct = await HeaviestItemFinder();
+            Stats stats = new Stats
+            {
+                TotalWeight = totalWeight,
+                TotalValue = totalValue,
+                MaxQuantity = maxQuantity,
+                HeaviestProduct = heaviestProduct
+            };
+            return stats;
         }
 
         public async Task<double> TotalWeightCounter()

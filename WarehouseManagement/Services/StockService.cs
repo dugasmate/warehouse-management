@@ -50,10 +50,11 @@ namespace WarehouseManagement.Services
             {
                 for (int i = 0; i < count; i++)
                 {
-                    var input = new Stock { ProductId = item.ProductId };
-                    await stockRepository.CreateAsync(input);
+                    var copiedItem = new Stock { ProductId = item.ProductId };
+                    await stockRepository.CreateAsync(copiedItem);
                 }
             }
+
             if (count < 0)
             {
                 count *= -1;

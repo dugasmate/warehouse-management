@@ -29,7 +29,7 @@ namespace WarehouseManagement.Controllers
         public async Task<IActionResult> AddItem([FromBody]Stock item,[FromRoute] int count)
         {
             await stockService.ChangeItemCountAsync(item, count);
-            return RedirectToAction();
+            return RedirectToAction("");
         }
     }
 }

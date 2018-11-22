@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WarehouseManagement.Models.ViewModels;
 using WarehouseManagement.Services;
 
 namespace WarehouseManagement.Controllers
@@ -17,32 +18,11 @@ namespace WarehouseManagement.Controllers
             this.statService = statService;
         }
 
-        [HttpGet("weight")]
-        public async Task<IActionResult> Weight()
+        [HttpGet("")]
+        public async Task<IActionResult> Stats()
         {
-            double totalWeight = await statService.TotalWeightCounter();
-            return Ok(totalWeight);
-        }
-
-        [HttpGet("value")]
-        public async Task<IActionResult> Value()
-        {
-            int totalValue = await statService.TotalValueCounter();
-            return Ok(totalValue);
-        }
-
-        [HttpGet("quantity")]
-        public async Task<IActionResult> Quantity()
-        {
-            var stock = await statService.MostItemsFinder();
-            return Ok(stock);
-        }
-
-        [HttpGet("heaviest")]
-        public async Task<IActionResult> HeaviestItem()
-        {
-            var stock = await statService.HeaviestItemFinder();
-            return Ok(stock);
+            var stats = await statService.MakeStatistics();
+            return Ok(stats);
         }
     }
 }
