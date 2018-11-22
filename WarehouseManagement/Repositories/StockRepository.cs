@@ -44,7 +44,7 @@ namespace WarehouseManagement.Repositories
 
         public async Task DeleteAsync(long id)
         {
-            var selectedItem = await stockContext.Stocks.Include(a => a.Product).FirstOrDefaultAsync(x => x.StockId == id);
+            var selectedItem = await stockContext.Stocks.Include(a => a.Product).FirstOrDefaultAsync(x => x.ProductId == id);
             stockContext.Stocks.Remove(selectedItem);
             await stockContext.SaveChangesAsync();
         }

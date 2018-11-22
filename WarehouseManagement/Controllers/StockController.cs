@@ -25,18 +25,11 @@ namespace WarehouseManagement.Controllers
             return Ok(stock);
         }
 
-        [HttpPost("add")]
-        public async Task<IActionResult> AddItem([FromBody]Stock item)
+        [HttpPost("changestock/{count}")]
+        public async Task<IActionResult> AddItem([FromBody]Stock item,[FromRoute] int count)
         {
-            await stockService.AddItemAsync(item);
-            return Ok();
+            await stockService.ChangeItemCountAsync(item, count);
+            return RedirectToAction();
         }
-
-        //[HttpGet("delete/{id}")]
-        //public async Task<IActionResult> RemoveItem(long id)
-        //{
-        //    await stockService.DeleteAsync(id);
-        //    return RedirectToAction("");
-        //}
     }
 }
