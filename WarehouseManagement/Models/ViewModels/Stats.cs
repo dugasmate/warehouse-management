@@ -9,6 +9,7 @@ namespace WarehouseManagement.Models.ViewModels
     {
         public double TotalWeight { get; set; }
         public int TotalValue { get; set; }
+        public decimal EuroValue { get; set; }
         public SortedStock MaxQuantity { get; set; }
         public Product HeaviestProduct { get; set; }
     }

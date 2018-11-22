@@ -8,7 +8,6 @@ using WarehouseManagement.Services;
 
 namespace WarehouseManagement.Controllers
 {
-    [Route("stock")]
     public class StockController : Controller
     {
         public StockService stockService;
@@ -19,6 +18,12 @@ namespace WarehouseManagement.Controllers
         }
 
         [HttpGet("")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet("stock")]
         public async Task<IActionResult> Stock()
         {
             var stock = await stockService.SortStockAsync();

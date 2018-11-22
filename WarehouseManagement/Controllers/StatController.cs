@@ -12,7 +12,7 @@ namespace WarehouseManagement.Controllers
     public class StatController : Controller
     {
         public StatService statService;
-
+        
         public StatController(StatService statService)
         {
             this.statService = statService;
@@ -22,7 +22,7 @@ namespace WarehouseManagement.Controllers
         public async Task<IActionResult> Stats()
         {
             var stats = await statService.MakeStatistics();
-            return Ok(stats);
+            return View(stats);
         }
     }
 }

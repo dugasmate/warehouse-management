@@ -13,12 +13,14 @@ namespace WarehouseManagement.Services
         public ICRUDRepository<Stock> stockRepository;
         public StockService stockService;
         public ICRUDRepository<Product> productRepository;
+        public MNBService mnbstatService;
 
-        public StatService(ICRUDRepository<Stock> stockRepository, StockService stockService, ICRUDRepository<Product> productRepository)
+        public StatService(ICRUDRepository<Stock> stockRepository, StockService stockService, ICRUDRepository<Product> productRepository, MNBService mnbstatService)
         {
             this.stockRepository = stockRepository;
             this.stockService = stockService;
             this.productRepository = productRepository;
+            this.mnbstatService = mnbstatService;
         }
 
 
@@ -28,10 +30,13 @@ namespace WarehouseManagement.Services
             int totalValue = await TotalValueCounter();
             var maxQuantity = await MostItemsFinder();
             var heaviestProduct = await HeaviestItemFinder();
+            var euroRate = await mnbstatService.GetEuroRate();
+            var totalEuroValue = Math.Round(totalValue / euroRate, 2);
             Stats stats = new Stats
             {
                 TotalWeight = totalWeight,
                 TotalValue = totalValue,
+                EuroValue = totalEuroValue,
                 MaxQuantity = maxQuantity,
                 HeaviestProduct = heaviestProduct
             };
