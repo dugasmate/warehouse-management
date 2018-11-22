@@ -23,7 +23,7 @@ namespace WarehouseManagement.Repositories
         {
             bool isInvalid = false;
             PropertyInfo[] properties = typeof(Product).GetProperties();
-            for (int i = 1; i < properties.Length - 1; i++)
+            for (int i = 1; i < properties.Length; i++)
             {
                 if (properties[i].GetValue(product) == null || string.IsNullOrWhiteSpace(properties[i].GetValue(product).ToString()) || properties[i].GetValue(product).ToString() == "0")
                 {
@@ -52,7 +52,7 @@ namespace WarehouseManagement.Repositories
 
         public async Task UpdateAsync(Product product)
         {
-            var productCount = stockContext.Products.Count(a => a.ProductId == product.ProductId);
+            var productCount = stockContext.Products.Count(a => a.Id == product.Id);
             bool isInvalid = false;
 
             if (productCount != 0)
@@ -60,10 +60,14 @@ namespace WarehouseManagement.Repositories
                 PropertyInfo[] properties = typeof(Product).GetProperties();
                 for (int i = 1; i < properties.Length; i++)
                 {
-                    if (properties[i].GetValue(product) == null || string.IsNullOrWhiteSpace(properties[i].GetValue(product).ToString()) || properties[i].GetValue(product).ToString() == "0")
+                    if (properties[i].Name != "Quantity")
                     {
-                        isInvalid = true;
+                        if (properties[i].GetValue(product) == null || string.IsNullOrWhiteSpace(properties[i].GetValue(product).ToString()) || properties[i].GetValue(product).ToString() == "0")
+                        {
+                            isInvalid = true;
+                        }
                     }
+
                 }
 
                 if (!isInvalid)

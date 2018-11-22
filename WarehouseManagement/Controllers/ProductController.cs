@@ -8,7 +8,6 @@ using WarehouseManagement.Models;
 
 namespace WarehouseManagement.Controllers
 {
-    [Route("products")]
     public class ProductController : Controller
     {
         public ICRUDRepository<Product> productRepository;
@@ -19,38 +18,44 @@ namespace WarehouseManagement.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> ListProducts()
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet("products")]
+        public async Task<IActionResult> Products()
         {
             var products = await productRepository.ReadAllAsync();
             return View(products);
         }
 
-        [HttpGet("{id}")]
+        [HttpPost("add")]
+        public async Task<IActionResult> AddProduct([FromForm] Product product)
+        {
+            await productRepository.CreateAsync(product);
+            return RedirectToAction("products");
+        }
+
+        [HttpGet("products/{id}")]
         public async Task<IActionResult> SelectProduct(long id)
         {
             var product = await productRepository.ReadAsync(id);
-            return Ok(product);
+            return View(product);
         }
-
-        [HttpPost("add")]
-        public async Task<IActionResult> AddProduct([FromBody] Product product)
-        {
-            await productRepository.CreateAsync(product);
-            return Ok();
-        }
-
-        [HttpPatch("update")]
-        public async Task<IActionResult> UpdateProduct([FromBody]Product product)
+        
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateProduct([FromForm] Product product)
         {
             await productRepository.UpdateAsync(product);
-            return RedirectToAction("");
+            return RedirectToAction("products");
         }
 
-        [HttpGet("delete/{id}")]
-        public async Task<IActionResult> RemoveProduct(long id)
+        [HttpPost("remove")]
+        public async Task<IActionResult> RemoveProduct([FromForm]long id)
         {
             await productRepository.DeleteAsync(id);
-            return RedirectToAction("");
+            return RedirectToAction("products");
         }
     }
 }

@@ -10,15 +10,11 @@ namespace WarehouseManagement.Services
 {
     public class StatService
     {
-        public ICRUDRepository<Stock> stockRepository;
-        public StockService stockService;
         public ICRUDRepository<Product> productRepository;
         public MNBService mnbstatService;
 
-        public StatService(ICRUDRepository<Stock> stockRepository, StockService stockService, ICRUDRepository<Product> productRepository, MNBService mnbstatService)
+        public StatService(ICRUDRepository<Product> productRepository, MNBService mnbstatService)
         {
-            this.stockRepository = stockRepository;
-            this.stockService = stockService;
             this.productRepository = productRepository;
             this.mnbstatService = mnbstatService;
         }
@@ -37,7 +33,7 @@ namespace WarehouseManagement.Services
                 TotalWeight = totalWeight,
                 TotalValue = totalValue,
                 EuroValue = totalEuroValue,
-                MaxQuantity = maxQuantity,
+                MaxQuantity = maxQuantity.Weight,
                 HeaviestProduct = heaviestProduct
             };
             return stats;
@@ -45,11 +41,11 @@ namespace WarehouseManagement.Services
 
         public async Task<double> TotalWeightCounter()
         {
-            var stock = await stockRepository.ReadAllAsync();
+            var stock = await productRepository.ReadAllAsync();
             double totalWeight = 0;
             for (int i = 0; i < stock.Count; i++)
             {
-                totalWeight += stock[i].Product.Weight;
+                totalWeight += stock[i].Weight;
             }
 
             return totalWeight;
@@ -57,19 +53,19 @@ namespace WarehouseManagement.Services
 
         public async Task<int> TotalValueCounter()
         {
-            var stock = await stockRepository.ReadAllAsync();
+            var stock = await productRepository.ReadAllAsync();
             int totalValue = 0;
             for (int i = 0; i < stock.Count; i++)
             {
-                totalValue += stock[i].Product.Price;
+                totalValue += stock[i].Price;
             }
 
             return totalValue;
         }
 
-        public async Task<SortedStock> MostItemsFinder()
+        public async Task<Product> MostItemsFinder()
         {
-            var stock = await stockService.SortStockAsync();
+            var stock = await productRepository.ReadAllAsync();
             var stockSortedByQuantity = stock.OrderByDescending(o => o.Quantity).ToList();
             return stockSortedByQuantity[0];
         }

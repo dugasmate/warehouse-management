@@ -21,8 +21,6 @@ namespace WarehouseManagement
         {
             services.AddMvc();
             services.AddScoped<ICRUDRepository<Product>, ProductRepository>();
-            services.AddScoped<ICRUDRepository<Stock>, StockRepository>();
-            services.AddScoped<StockService>();
             services.AddScoped<StatService>();
             services.AddScoped<MNBService>();
             services.AddDbContext<WarehouseContext>(options =>

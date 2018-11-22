@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Warehouse Software</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        body, table {
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Termékek</h1>
+    <table>
+        <tr>
+            <th>Azonosító</th>
+            <th>Név</th>
+            <th>Ár</th>
+            <th>Súly</th>
+            <th>Leírás</th>
+            <th>Mennyiség</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductCode</td>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.Weight</td>
+                <td>@product.Description</td>
+                <td>@product.Quantity</td>
+                <td>
+                    <form action="stock" method="post">
+                        <input type="text" name="count">
+                        <input type="hidden" value=" name="id">
+                        <input type="submit" value="Elküldés">
+                    </form>
+                </td>
+                <td>
+                    <form action="remove" method="post">
+                        <input type="hidden" value="@product.Id" name="id">
+                        <input type="submit" value="Törlés">
+                    </form>
+                </td>
+                <td>
+                    <form action="products/@product.Id" method="get">
+                        <input type="submit" value="Módosítás">
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+    <form action="/">
+        <input type="submit" value="Vissza" />
+    </form>
+
+</body>
+</html>

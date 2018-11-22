@@ -8,10 +8,12 @@ namespace WarehouseManagement.Models
 {
     public class Product
     {
-        public long ProductId { get; set; }
+        public long Id { get; set; }
+        public string ProductCode { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
         public string Description { get; set; }
         public double Weight { get; set; }
+        public int Quantity { get; set; }
     }
 }

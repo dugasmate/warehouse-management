@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Warehouse Software</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        body, table {
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Termék módosítása</h1>
+    <form action="/update" method="post">
+        <table>
+            <tr>
+                <th>Azonosító</th>
+                <th>Név</th>
+                <th>Ár</th>
+                <th>Súly</th>
+                <th>Leírás</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="hidden" value="@Model.Id" name="id">
+                    <input type="hidden" value="@Model.Quantity" name="quantity">
+                    <input type="text" value="@Model.ProductCode" name="productcode">
+                </td>
+                <td>
+                    <input type="text" value="@Model.Name" name="name">
+                </td>
+                <td>
+                    <input type="text" value="@Model.Price" name="price">
+                </td>
+                <td>
+                    <input type="text" value="@Model.Weight" name="weight">
+                </td>
+                <td>
+                    <input type="text" value="@Model.Description" name="description">
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Mentés" />
+    </form>
+    <div>
+        <form action="/products">
+            <input type="submit" value="Vissza" />
+        </form>
+    </div>
+</body>
+</html>
