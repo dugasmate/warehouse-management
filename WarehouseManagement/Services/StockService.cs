@@ -27,13 +27,13 @@ namespace WarehouseManagement.Services
             {
                 if (i == 0)
                 {
-                    sortedStock.Add(new SortedStock { Name = sortedList[i].Product.Name, Quantity = 1 });
+                    sortedStock.Add(new SortedStock { ProductId = sortedList[i].Product.ProductId, Name = sortedList[i].Product.Name, Quantity = 1 });
                 }
 
                 else if (sortedList[i].ProductId != sortedList[i - 1].ProductId)
                 {
                     switcher += 1;
-                    sortedStock.Add(new SortedStock { Name = sortedList[i].Product.Name, Quantity = 1 });
+                    sortedStock.Add(new SortedStock { ProductId = sortedList[i].Product.ProductId, Name = sortedList[i].Product.Name, Quantity = 1 });
                 }
 
                 else
@@ -44,13 +44,13 @@ namespace WarehouseManagement.Services
             return sortedStock;
         }
 
-        public async Task ChangeItemCountAsync(Stock item, int count)
+        public async Task ChangeItemCountAsync(long id, int count)
         {
             if (count > 0)
             {
                 for (int i = 0; i < count; i++)
                 {
-                    var copiedItem = new Stock { ProductId = item.ProductId };
+                    var copiedItem = new Stock { ProductId = id };
                     await stockRepository.CreateAsync(copiedItem);
                 }
             }
@@ -60,7 +60,7 @@ namespace WarehouseManagement.Services
                 count *= -1;
                 for (int i = 0; i < count; i++)
                 {
-                    await stockRepository.DeleteAsync(item.ProductId);
+                    await stockRepository.DeleteAsync(id);
                 }
             }
         }

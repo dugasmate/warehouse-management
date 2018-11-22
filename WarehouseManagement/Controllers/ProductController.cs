@@ -22,7 +22,7 @@ namespace WarehouseManagement.Controllers
         public async Task<IActionResult> ListProducts()
         {
             var products = await productRepository.ReadAllAsync();
-            return Ok(products);
+            return View(products);
         }
 
         [HttpGet("{id}")]

@@ -27,14 +27,14 @@ namespace WarehouseManagement.Controllers
         public async Task<IActionResult> Stock()
         {
             var stock = await stockService.SortStockAsync();
-            return Ok(stock);
+            return View(stock);
         }
 
-        [HttpPost("changestock/{count}")]
-        public async Task<IActionResult> AddItem([FromBody]Stock item,[FromRoute] int count)
+        [HttpPost("stock")]
+        public async Task<IActionResult> AddItem([FromForm] long id, [FromForm] int count)
         {
-            await stockService.ChangeItemCountAsync(item, count);
-            return RedirectToAction("");
+            await stockService.ChangeItemCountAsync(id, count);
+            return RedirectToAction("stock");
         }
     }
 }

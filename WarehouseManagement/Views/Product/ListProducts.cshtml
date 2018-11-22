@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Warehouse Software</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+        body, table {
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Termékek</h1>
+    <table>
+        <tr>
+            <th>Név</th>
+            <th>Ár</th>
+            <th>Súly</th>
+            <th>Leírás</th>
+        </tr>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.Weight</td>
+                <td>@product.Description</td>
+            </tr>
+        }
+            </table>
+        <form action="/">
+            <input type="submit" value="Vissza" />
+        </form>
+
+</body>
+</html>
