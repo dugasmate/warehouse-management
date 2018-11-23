@@ -33,7 +33,7 @@ namespace WarehouseManagement.Services
                 TotalWeight = totalWeight,
                 TotalValue = totalValue,
                 EuroValue = totalEuroValue,
-                MaxQuantity = maxQuantity.Weight,
+                MaxQuantity = maxQuantity,
                 HeaviestProduct = heaviestProduct
             };
             return stats;
@@ -41,11 +41,11 @@ namespace WarehouseManagement.Services
 
         public async Task<double> TotalWeightCounter()
         {
-            var stock = await productRepository.ReadAllAsync();
+            var products = await productRepository.ReadAllAsync();
             double totalWeight = 0;
-            for (int i = 0; i < stock.Count; i++)
+            for (int i = 0; i < products.Count; i++)
             {
-                totalWeight += stock[i].Weight;
+                totalWeight += products[i].Weight * products[i].Quantity;
             }
 
             return totalWeight;
@@ -53,11 +53,11 @@ namespace WarehouseManagement.Services
 
         public async Task<int> TotalValueCounter()
         {
-            var stock = await productRepository.ReadAllAsync();
+            var products = await productRepository.ReadAllAsync();
             int totalValue = 0;
-            for (int i = 0; i < stock.Count; i++)
+            for (int i = 0; i < products.Count; i++)
             {
-                totalValue += stock[i].Price;
+                totalValue += products[i].Price * products[i].Quantity;
             }
 
             return totalValue;
@@ -74,7 +74,8 @@ namespace WarehouseManagement.Services
         {
             var products = await productRepository.ReadAllAsync();
             var productsSortedByWeight = products.OrderByDescending(o => o.Weight).ToList();
-            return productsSortedByWeight[0];
+            var heaviestItem = new Product { Name = productsSortedByWeight[0].Name, Weight = productsSortedByWeight[0].Weight * productsSortedByWeight[0].Quantity };
+            return heaviestItem;
         }
     }
 }

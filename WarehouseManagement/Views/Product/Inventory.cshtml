@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Warehouse Software</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        body, table {
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Készlet</h1>
+    <form action="/inventory" method="post">
+        <table>
+            <tr>
+                <th>Azonosító</th>
+                <th>Név</th>
+                <th>Ár</th>
+                <th>Súly</th>
+                <th>Leírás</th>
+                <th>Mennyiség</th>
+                <th>Módosítás</th>
+            </tr>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.ProductCode</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>@product.Weight</td>
+                    <td>@product.Description</td>
+                    <td>@product.Quantity</td>
+                    <td>
+                        <input type="hidden" value="@product.Id" name="id">
+                        <input type="number" value="@product.Quantity" name="quantity">
+                        <input type="hidden" value="@product.ProductCode" name="productcode">
+                        <input type="hidden" value="@product.Name" name="name">
+                        <input type="hidden" value="@product.Price" name="price">
+                        <input type="hidden" value="@product.Weight" name="weight">
+                        <input type="hidden" value="@product.Description" name="description">
+                    </td>
+                </tr>
+            }
+        </table>
+        <input type="submit" value="Módosítás">
+    </form>
+    <form action="/">
+        <input type="submit" value="Vissza" />
+    </form>
+</body>
+</html>

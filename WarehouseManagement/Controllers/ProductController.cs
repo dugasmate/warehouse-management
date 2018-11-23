@@ -51,13 +51,6 @@ namespace WarehouseManagement.Controllers
             return View(product);
         }
 
-        //[HttpPost("changestock")]
-        //public async Task<IActionResult> ChangeStock([FromForm] long id, int itemCount)
-        //{
-        //    await productService.CreateAsync(id, itemCount);
-        //    return RedirectToAction("products");
-        //}
-
         [HttpPost("update")]
         public async Task<IActionResult> UpdateProduct([FromForm] Product product)
         {
@@ -70,6 +63,20 @@ namespace WarehouseManagement.Controllers
         {
             await productService.DeleteAsync(id);
             return RedirectToAction("products");
+        }
+
+        [HttpGet("inventory")]
+        public async Task<IActionResult> Inventory()
+        {
+            var products = await productService.ReadAllAsync();
+            return View(products);
+        }
+
+        [HttpPost("inventory")]
+        public async Task<IActionResult> Inventory([FromForm] Product[] products)
+        {
+            await productService.UpdateAsync(products[0]);
+            return RedirectToAction("inventory");
         }
     }
 }

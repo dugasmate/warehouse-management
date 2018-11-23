@@ -81,5 +81,13 @@ namespace WarehouseManagement.Services
                 await productRepository.DeleteAsync(productToDelete);
             }
         }
+
+        public async Task UpdateStock(Product[] products)
+        {
+            foreach (var product in products)
+            {
+                await productRepository.UpdateAsync(product);
+            }
+        }
     }
 }

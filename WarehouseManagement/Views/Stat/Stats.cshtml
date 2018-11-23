@@ -9,7 +9,7 @@
     <h2>Raktár össztömege: @Model.TotalWeight KG</h2>
     <h2>Raktár összértéke: @Model.TotalValue HUF - @Model.EuroValue EUR</h2>
     <h2>Legtöbb tételű termék: @Model.MaxQuantity.Name - @Model.MaxQuantity.Quantity DB</h2>
-    <h2>Legnagyobb termék: @Model.HeaviestProduct.Name</h2>
+    <h2>Legnagyobb össztömegű termék: @Model.HeaviestProduct.Name - @Model.HeaviestProduct.Weight KG</h2>
     <form action="/">
         <input type="submit" value="Vissza" />
     </form>

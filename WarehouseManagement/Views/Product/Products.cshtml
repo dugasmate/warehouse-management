@@ -23,32 +23,22 @@
             <th>Ár</th>
             <th>Súly</th>
             <th>Leírás</th>
-            <th>Mennyiség</th>
-            <th>Módosítás</th>
             <th>Szerkesztés</th>
         </tr>
         @foreach (var product in Model)
         {
-            <tr>
-                <td>@product.ProductCode</td>
-                <td>@product.Name</td>
-                <td>@product.Price</td>
-                <td>@product.Weight</td>
-                <td>@product.Description</td>
-                <td>@product.Quantity</td>
-                <td>
-                    <form action="changestock" method="post">
-                        <input type="number" name="itemCount" style="width: 70px">
-                        <input type="hidden" value=" name="id">
-                        <input type="submit" value="Elküldés">
-                    </form>
-                </td>
-                <td>
-                    <form action="products/@product.Id" method="get">
-                        <input type="submit" value="">
-                    </form>
-                </td>
-            </tr>
+        <tr>
+            <td>@product.ProductCode</td>
+            <td>@product.Name</td>
+            <td>@product.Price</td>
+            <td>@product.Weight</td>
+            <td>@product.Description</td>
+            <td>
+                <form action="products/@product.Id" method="get">
+                    <input type="submit" value="">
+                </form>
+            </td>
+        </tr>
         }
     </table>
     <form action="add">
