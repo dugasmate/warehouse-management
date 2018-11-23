@@ -21,21 +21,10 @@ namespace WarehouseManagement.Repositories
 
         public async Task CreateAsync(Product product)
         {
-            bool isInvalid = false;
-            PropertyInfo[] properties = typeof(Product).GetProperties();
-            for (int i = 1; i < properties.Length; i++)
-            {
-                if (properties[i].GetValue(product) == null || string.IsNullOrWhiteSpace(properties[i].GetValue(product).ToString()) || properties[i].GetValue(product).ToString() == "0")
-                {
-                    isInvalid = true;
-                }
-            }
 
-            if (!isInvalid)
-            {
-                await stockContext.Products.AddAsync(product);
-                await stockContext.SaveChangesAsync();
-            }
+            await stockContext.Products.AddAsync(product);
+            await stockContext.SaveChangesAsync();
+
         }
 
         public async Task<Product> ReadAsync(long id)
@@ -52,40 +41,14 @@ namespace WarehouseManagement.Repositories
 
         public async Task UpdateAsync(Product product)
         {
-            var productCount = stockContext.Products.Count(a => a.Id == product.Id);
-            bool isInvalid = false;
-
-            if (productCount != 0)
-            {
-                PropertyInfo[] properties = typeof(Product).GetProperties();
-                for (int i = 1; i < properties.Length; i++)
-                {
-                    if (properties[i].Name != "Quantity")
-                    {
-                        if (properties[i].GetValue(product) == null || string.IsNullOrWhiteSpace(properties[i].GetValue(product).ToString()) || properties[i].GetValue(product).ToString() == "0")
-                        {
-                            isInvalid = true;
-                        }
-                    }
-
-                }
-
-                if (!isInvalid)
-                {
                     stockContext.Products.Update(product);
                     await stockContext.SaveChangesAsync();
-                }
-            }
         }
 
-        public async Task DeleteAsync(long id)
+        public async Task DeleteAsync(Product product)
         {
-            var productToDelete = await stockContext.Products.FindAsync(id);
-            if (productToDelete != null)
-            {
-                stockContext.Products.Remove(productToDelete);
+                stockContext.Products.Remove(product);
                 await stockContext.SaveChangesAsync();
-            }
         }
     }
 }
