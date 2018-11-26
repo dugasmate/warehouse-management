@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WarehouseManagement.Interfaces;
 using WarehouseManagement.Models;
+using WarehouseManagement.Models.ViewModels;
 using WarehouseManagement.Services;
 
 namespace WarehouseManagement.Controllers
@@ -19,9 +20,10 @@ namespace WarehouseManagement.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var validate = await productService.CheckProducts();
+            return View(validate);
         }
 
         [HttpGet("products")]
@@ -63,20 +65,6 @@ namespace WarehouseManagement.Controllers
         {
             await productService.DeleteAsync(id);
             return RedirectToAction("products");
-        }
-
-        [HttpGet("inventory")]
-        public async Task<IActionResult> Inventory()
-        {
-            var products = await productService.ReadAllAsync();
-            return View(products);
-        }
-
-        [HttpPost("inventory")]
-        public async Task<IActionResult> Inventory([FromForm] Product[] products)
-        {
-            await productService.UpdateAsync(products[0]);
-            return RedirectToAction("inventory");
         }
     }
 }

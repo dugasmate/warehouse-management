@@ -9,8 +9,8 @@ using WarehouseManagement.Context;
 namespace WarehouseManagement.Migrations
 {
     [DbContext(typeof(WarehouseContext))]
-    [Migration("20181122203549_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20181126121855_Recreate")]
+    partial class Recreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,11 +30,11 @@ namespace WarehouseManagement.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("Price");
+                    b.Property<long>("Price");
 
                     b.Property<string>("ProductCode");
 
-                    b.Property<int>("Quantity");
+                    b.Property<long>("Quantity");
 
                     b.Property<double>("Weight");
 

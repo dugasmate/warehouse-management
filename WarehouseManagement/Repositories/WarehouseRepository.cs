@@ -10,45 +10,45 @@ using WarehouseManagement.Models;
 
 namespace WarehouseManagement.Repositories
 {
-    public class ProductRepository : ICRUDRepository<Product>
+    public class WarehouseRepository : ICRUDRepository<Product>
     {
-        private WarehouseContext stockContext;
+        private WarehouseContext warehouseContext;
 
-        public ProductRepository(WarehouseContext stockContext)
+        public WarehouseRepository(WarehouseContext stockContext)
         {
-            this.stockContext = stockContext;
+            this.warehouseContext = stockContext;
         }
 
         public async Task CreateAsync(Product product)
         {
 
-            await stockContext.Products.AddAsync(product);
-            await stockContext.SaveChangesAsync();
+            await warehouseContext.Products.AddAsync(product);
+            await warehouseContext.SaveChangesAsync();
 
         }
 
         public async Task<Product> ReadAsync(long id)
         {
-            var product = await stockContext.Products.FindAsync(id);
+            var product = await warehouseContext.Products.FindAsync(id);
             return product;
         }
 
         public async Task<List<Product>> ReadAllAsync()
         {
-            var products = await stockContext.Products.ToListAsync();
+            var products = await warehouseContext.Products.ToListAsync();
             return products;
         }
 
         public async Task UpdateAsync(Product product)
         {
-                    stockContext.Products.Update(product);
-                    await stockContext.SaveChangesAsync();
+            warehouseContext.Products.Update(product);
+            await warehouseContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Product product)
         {
-                stockContext.Products.Remove(product);
-                await stockContext.SaveChangesAsync();
+            warehouseContext.Products.Remove(product);
+            await warehouseContext.SaveChangesAsync();
         }
     }
 }

@@ -28,11 +28,11 @@ namespace WarehouseManagement.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("Price");
+                    b.Property<long>("Price");
 
                     b.Property<string>("ProductCode");
 
-                    b.Property<int>("Quantity");
+                    b.Property<long>("Quantity");
 
                     b.Property<double>("Weight");
 
