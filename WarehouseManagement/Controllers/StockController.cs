@@ -13,7 +13,7 @@ namespace WarehouseManagement.Controllers
     public class StockController : Controller
     {
         StockService stockService;
-        public StockController (StockService stockService)
+        public StockController(StockService stockService)
         {
             this.stockService = stockService;
         }

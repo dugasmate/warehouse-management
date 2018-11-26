@@ -16,5 +16,4 @@ namespace WarehouseManagement.Models.ViewModels
         public long Quantity { get; set; }
         public string EuroPrice { get; set; }
     }
-
 }

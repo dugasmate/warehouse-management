@@ -21,10 +21,8 @@ namespace WarehouseManagement.Repositories
 
         public async Task CreateAsync(Product product)
         {
-
             await warehouseContext.Products.AddAsync(product);
             await warehouseContext.SaveChangesAsync();
-
         }
 
         public async Task<Product> ReadAsync(long id)

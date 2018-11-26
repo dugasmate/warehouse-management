@@ -28,7 +28,6 @@ namespace WarehouseManagement.Services
 
             foreach (var product in products)
             {
-
                 var viewModel = new ProductViewModel
                 {
                     Id = product.Id,
@@ -49,7 +48,6 @@ namespace WarehouseManagement.Services
         {
             for (int i = 0; i < stocks.Count; i++)
             {
-
                 var product = await productRepository.ReadAsync(stocks[i].Id);
                 if (product.Quantity + stocks[i].Quantity < 0)
                 {
@@ -61,8 +59,6 @@ namespace WarehouseManagement.Services
                 }
                 await productRepository.UpdateAsync(product);
             }
-
         }
-
     }
 }

@@ -20,7 +20,6 @@ namespace WarehouseManagement.Services
             this.mnbstatService = mnbstatService;
         }
 
-
         public async Task<StatsViewModel> MakeStatistics()
         {
             double totalWeight = await TotalWeightCounter();
@@ -47,7 +46,6 @@ namespace WarehouseManagement.Services
             {
                 totalWeight += products[i].Weight * products[i].Quantity;
             }
-
             return totalWeight;
         }
 
@@ -59,7 +57,6 @@ namespace WarehouseManagement.Services
             {
                 totalValue += products[i].Price * products[i].Quantity;
             }
-
             return totalValue;
         }
 
@@ -77,7 +74,6 @@ namespace WarehouseManagement.Services
             foreach (var product in products)
             {
                 productsTotalWeight.Add(new Product { Name = product.Name, Weight = product.Weight * product.Quantity });
-
             }
             var productsSortedByWeight = productsTotalWeight.OrderByDescending(o => o.Weight).ToList();
             return productsSortedByWeight[0];

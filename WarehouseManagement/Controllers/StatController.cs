@@ -12,7 +12,7 @@ namespace WarehouseManagement.Controllers
     public class StatController : Controller
     {
         public StatService statService;
-        
+
         public StatController(StatService statService)
         {
             this.statService = statService;

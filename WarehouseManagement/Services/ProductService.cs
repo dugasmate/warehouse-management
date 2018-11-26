@@ -57,7 +57,6 @@ namespace WarehouseManagement.Services
 
             foreach (var product in products)
             {
-
                 var viewModel = new ProductViewModel
                 {
                     Id = product.Id,
@@ -88,14 +87,12 @@ namespace WarehouseManagement.Services
                         isInvalid = true;
                     }
                 }
-
             }
 
             if (!isInvalid)
             {
                 await productRepository.UpdateAsync(product);
             }
-
         }
 
         public async Task DeleteAsync(long id)
@@ -106,7 +103,7 @@ namespace WarehouseManagement.Services
                 await productRepository.DeleteAsync(productToDelete);
             }
         }
-        
+
         public async Task<bool> CheckProducts()
         {
             bool productsExist = true;

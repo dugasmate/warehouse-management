@@ -12,7 +12,7 @@ namespace WarehouseManagement.Models.ViewModels
         public string TotalValue { get; set; }
         public string EuroValue { get; set; }
         public Product MaxQuantity { get; set; }
-        public Product HeaviestProduct{ get; set; }
+        public Product HeaviestProduct { get; set; }
     }
 }
 
