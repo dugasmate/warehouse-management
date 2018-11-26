@@ -27,13 +27,14 @@
         #buttons {
             background-color: antiquewhite;
         }
-
     </style>
 </head>
 <body>
     <h1>Termékek</h1>
     <table class="table-dark">
         <tr>
+            @if (Model.Count != 0)
+            {
             <th>Azonosító</th>
             <th>Név</th>
             <th colspan="2">Ár</th>
@@ -41,28 +42,29 @@
             <th>Leírás</th>
             <th>Szerkesztés</th>
             <th>Törlés</th>
+            }
         </tr>
         @foreach (var product in Model)
         {
-        <tr>
-            <td>@product.ProductCode</td>
-            <td>@product.Name</td>
-            <td>@product.Price</td>
-            <td>@product.EuroPrice</td>
-            <td>@product.Weight kg</td>
-            <td>@product.Description</td>
-            <td>
-                <form action="products/@product.Id" method="get">
-                    <input type="submit" id="buttons" style="width:100%" value="">
-                </form>
-            </td>
-            <td>
-                <form action="/remove" method="post">
-                    <input type="hidden" value="@product.Id" name="id">
-                    <input type="submit" id="buttons" style="width:100%" value="">
-                </form>
-            </td>
-        </tr>
+            <tr>
+                <td>@product.ProductCode</td>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.EuroPrice</td>
+                <td>@product.Weight kg</td>
+                <td>@product.Description</td>
+                <td>
+                    <form action="products/@product.Id" method="get">
+                        <input type="submit" id="buttons" style="width:100%" value="">
+                    </form>
+                </td>
+                <td>
+                    <form action="/remove" method="post">
+                        <input type="hidden" value="@product.Id" name="id">
+                        <input type="submit" id="buttons" style="width:100%" value="">
+                    </form>
+                </td>
+            </tr>
         }
         <tr>
             <td colspan="8">
@@ -72,8 +74,8 @@
             </td>
         </tr>
     </table>
-        <form action="/">
-            <input type="submit" class="btn" id="buttons" value="Vissza" style="margin-top: 3em" />
-        </form>
+    <form action="/">
+        <input type="submit" class="btn" id="buttons" value="Vissza" style="margin-top: 3em" />
+    </form>
 </body>
 </html>
