@@ -5,52 +5,66 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WarehouseManagement.Interfaces;
 using WarehouseManagement.Models;
+using WarehouseManagement.Models.ViewModels;
+using WarehouseManagement.Services;
 
 namespace WarehouseManagement.Controllers
 {
-    [Route("products")]
     public class ProductController : Controller
     {
-        public ICRUDRepository<Product> productRepository;
+        public ProductService productService;
 
-        public ProductController(ICRUDRepository<Product> productRepository)
+        public ProductController(ProductService productService)
         {
-            this.productRepository = productRepository;
+            this.productService = productService;
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> ListProducts()
+        public async Task<IActionResult> Index()
         {
-            var products = await productRepository.ReadAllAsync();
+            var validate = await productService.CheckProducts();
+            return View(validate);
+        }
+
+        [HttpGet("products")]
+        public async Task<IActionResult> Products()
+        {
+            var products = await productService.ReadAllAsync();
             return View(products);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> SelectProduct(long id)
+        [HttpGet("add")]
+        public IActionResult AddProduct()
         {
-            var product = await productRepository.ReadAsync(id);
-            return Ok(product);
+            return View();
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddProduct([FromBody] Product product)
+        public async Task<IActionResult> AddProduct([FromForm] Product product)
         {
-            await productRepository.CreateAsync(product);
-            return Ok();
+            await productService.CreateAsync(product);
+            return RedirectToAction("products");
         }
 
-        [HttpPatch("update")]
-        public async Task<IActionResult> UpdateProduct([FromBody]Product product)
+        [HttpGet("products/{id}")]
+        public async Task<IActionResult> SelectProduct(long id)
         {
-            await productRepository.UpdateAsync(product);
-            return RedirectToAction("");
+            var product = await productService.ReadAsync(id);
+            return View(product);
         }
 
-        [HttpGet("delete/{id}")]
-        public async Task<IActionResult> RemoveProduct(long id)
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateProduct([FromForm] Product product)
         {
-            await productRepository.DeleteAsync(id);
-            return RedirectToAction("");
+            await productService.UpdateAsync(product);
+            return RedirectToAction("products");
+        }
+
+        [HttpPost("remove")]
+        public async Task<IActionResult> RemoveProduct([FromForm]long id)
+        {
+            await productService.DeleteAsync(id);
+            return RedirectToAction("products");
         }
     }
 }

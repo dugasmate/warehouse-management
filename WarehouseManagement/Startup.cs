@@ -20,8 +20,8 @@ namespace WarehouseManagement
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddScoped<ICRUDRepository<Product>, ProductRepository>();
-            services.AddScoped<ICRUDRepository<Stock>, StockRepository>();
+            services.AddScoped<ICRUDRepository<Product>, WarehouseRepository>();
+            services.AddScoped<ProductService>();
             services.AddScoped<StockService>();
             services.AddScoped<StatService>();
             services.AddScoped<MNBService>();

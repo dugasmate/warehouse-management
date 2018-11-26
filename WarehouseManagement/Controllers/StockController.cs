@@ -3,38 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WarehouseManagement.Models;
+using WarehouseManagement.Models.ViewModels;
 using WarehouseManagement.Services;
+
+// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WarehouseManagement.Controllers
 {
     public class StockController : Controller
     {
-        public StockService stockService;
-
-        public StockController(StockService stockService)
+        StockService stockService;
+        public StockController (StockService stockService)
         {
             this.stockService = stockService;
         }
 
-        [HttpGet("")]
-        public IActionResult Index()
+        [HttpGet("inventory")]
+        public async Task<IActionResult> Inventory()
         {
-            return View();
+            var products = await stockService.ReadAllAsync();
+            return View(products);
         }
 
-        [HttpGet("stock")]
-        public async Task<IActionResult> Stock()
+        [HttpPost("inventory")]
+        public async Task<IActionResult> Inventory([FromForm] List<StockDTO> stocks)
         {
-            var stock = await stockService.SortStockAsync();
-            return View(stock);
-        }
-
-        [HttpPost("stock")]
-        public async Task<IActionResult> AddItem([FromForm] long id, [FromForm] int count)
-        {
-            await stockService.ChangeItemCountAsync(id, count);
-            return RedirectToAction("stock");
+            await stockService.UpdateStock(stocks);
+            return RedirectToAction("inventory");
         }
     }
 }

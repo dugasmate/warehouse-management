@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Warehouse Software</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+
+        h1 {
+            margin-top: 4em;
+            margin-bottom: 1.5em;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            background-color: dodgerblue;
+            text-align: center;
+            align-items: center;
+        }
+
+        #buttons {
+            background-color: antiquewhite;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Készlet</h1>
+    <form action="/inventory" method="post">
+        <table class="table-dark">
+            <tr>
+                <th>Azonosító</th>
+                <th>Név</th>
+                <th colspan="2">Ár</th>
+                <th>Súly</th>
+                <th>Leírás</th>
+                <th>Mennyiség</th>
+                <th>Módosítás</th>
+            </tr>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>@Model[i].ProductCode</td>
+                    <td>@Model[i].Name</td>
+                    <td>@Model[i].Price</td>
+                    <td>@Model[i].EuroPrice</td>
+                    <td>@Model[i].Weight kg</td>
+                    <td>@Model[i].Description</td>
+                    <td>@Model[i].Quantity db</td>
+                    <td>
+                        <input type="hidden" value="@Model[i].Id" name="stocks[@i].Id">
+                        <input type="number" value="" name="stocks[@i].Quantity">
+                    </td>
+                </tr>
+            }
+        <tr>
+            <td colspan="8">
+                <input type="submit" class="btn" id="buttons" style="width:100%" value="Módosítás">
+            </td>
+        </tr>
+        </table>
+    </form>
+    <form action="/">
+        <input type="submit" class="btn" id="buttons"style="margin-top: 3em" value="Vissza" />
+    </form>
+</body>
+</html>

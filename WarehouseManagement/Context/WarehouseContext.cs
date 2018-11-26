@@ -9,7 +9,6 @@ namespace WarehouseManagement.Context
 {
     public class WarehouseContext : DbContext
     {
-        public DbSet<Stock> Stocks { get; set; }
         public DbSet<Product> Products { get; set; }
 
         public WarehouseContext(DbContextOptions<WarehouseContext> options) : base(options)

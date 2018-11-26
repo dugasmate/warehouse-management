@@ -12,6 +12,6 @@ namespace WarehouseManagement.Interfaces
         Task<T> ReadAsync(long id);
         Task<List<T>> ReadAllAsync();
         Task UpdateAsync(T t);
-        Task DeleteAsync(long id);
+        Task DeleteAsync(T t);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using WarehouseManagement.Interfaces;
@@ -10,59 +11,58 @@ namespace WarehouseManagement.Services
 {
     public class StockService
     {
-        public ICRUDRepository<Stock> stockRepository;
+        public ICRUDRepository<Product> productRepository;
+        public MNBService mnbService;
 
-        public StockService(ICRUDRepository<Stock> stockRepository)
+        public StockService(ICRUDRepository<Product> productRepository, MNBService mnbService)
         {
-            this.stockRepository = stockRepository;
+            this.productRepository = productRepository;
+            this.mnbService = mnbService;
         }
 
-        public async Task<List<SortedStock>> SortStockAsync()
+        public async Task<List<ProductViewModel>> ReadAllAsync()
         {
-            var stock = await stockRepository.ReadAllAsync();
-            var sortedList = stock.OrderBy(o => o.ProductId).ToList();
-            List<SortedStock> sortedStock = new List<SortedStock>();
-            int switcher = 0;
-            for (int i = 0; i < sortedList.Count; i++)
+            var products = await productRepository.ReadAllAsync();
+            var euroRate = await mnbService.GetEuroRate();
+            List<ProductViewModel> productViews = new List<ProductViewModel>();
+
+            foreach (var product in products)
             {
-                if (i == 0)
-                {
-                    sortedStock.Add(new SortedStock { ProductId = sortedList[i].Product.ProductId, Name = sortedList[i].Product.Name, Quantity = 1 });
-                }
 
-                else if (sortedList[i].ProductId != sortedList[i - 1].ProductId)
+                var viewModel = new ProductViewModel
                 {
-                    switcher += 1;
-                    sortedStock.Add(new SortedStock { ProductId = sortedList[i].Product.ProductId, Name = sortedList[i].Product.Name, Quantity = 1 });
-                }
+                    Id = product.Id,
+                    ProductCode = product.ProductCode,
+                    Name = product.Name,
+                    Price = (product.Price * product.Quantity).ToString("C0", CultureInfo.CreateSpecificCulture("hu-HU")),
+                    Description = product.Description,
+                    Quantity = product.Quantity,
+                    Weight = product.Weight * product.Quantity,
+                    EuroPrice = ((product.Price / euroRate) * product.Quantity).ToString("C2", CultureInfo.CreateSpecificCulture("de-DE"))
+                };
+                productViews.Add(viewModel);
+            }
+            return productViews;
+        }
 
+        public async Task UpdateStock(List<StockDTO> stocks)
+        {
+            for (int i = 0; i < stocks.Count; i++)
+            {
+
+                var product = await productRepository.ReadAsync(stocks[i].Id);
+                if (product.Quantity + stocks[i].Quantity < 0)
+                {
+                    product.Quantity = 0;
+                }
                 else
                 {
-                    sortedStock[switcher].Quantity += 1;
+                    product.Quantity += stocks[i].Quantity;
                 }
-            }
-            return sortedStock;
-        }
-
-        public async Task ChangeItemCountAsync(long id, int count)
-        {
-            if (count > 0)
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    var copiedItem = new Stock { ProductId = id };
-                    await stockRepository.CreateAsync(copiedItem);
-                }
+                await productRepository.UpdateAsync(product);
             }
 
-            if (count < 0)
-            {
-                count *= -1;
-                for (int i = 0; i < count; i++)
-                {
-                    await stockRepository.DeleteAsync(id);
-                }
-            }
         }
+
     }
 }

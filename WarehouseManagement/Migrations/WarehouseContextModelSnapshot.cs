@@ -8,7 +8,7 @@ using WarehouseManagement.Context;
 namespace WarehouseManagement.Migrations
 {
     [DbContext(typeof(WarehouseContext))]
-    partial class StockContextModelSnapshot : ModelSnapshot
+    partial class WarehouseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace WarehouseManagement.Migrations
 
             modelBuilder.Entity("WarehouseManagement.Models.Product", b =>
                 {
-                    b.Property<long>("ProductId")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -28,36 +28,17 @@ namespace WarehouseManagement.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("Price");
+                    b.Property<long>("Price");
+
+                    b.Property<string>("ProductCode");
+
+                    b.Property<long>("Quantity");
 
                     b.Property<double>("Weight");
 
-                    b.HasKey("ProductId");
+                    b.HasKey("Id");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("WarehouseManagement.Models.Stock", b =>
-                {
-                    b.Property<long>("StockId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("ProductId");
-
-                    b.HasKey("StockId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Stocks");
-                });
-
-            modelBuilder.Entity("WarehouseManagement.Models.Stock", b =>
-                {
-                    b.HasOne("WarehouseManagement.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

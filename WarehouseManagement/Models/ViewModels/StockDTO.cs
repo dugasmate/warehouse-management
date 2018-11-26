@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace WarehouseManagement.Models.ViewModels
 {
-    public class SortedStock
+    public class StockDTO
     {
-        public long ProductId { get; set; }
-        public string Name { get; set; }
-        public int Quantity { get; set; }
+        public long Id { get; set; }
+        public long Quantity { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using WarehouseManagement.Interfaces;
@@ -10,33 +11,28 @@ namespace WarehouseManagement.Services
 {
     public class StatService
     {
-        public ICRUDRepository<Stock> stockRepository;
-        public StockService stockService;
         public ICRUDRepository<Product> productRepository;
         public MNBService mnbstatService;
 
-        public StatService(ICRUDRepository<Stock> stockRepository, StockService stockService, ICRUDRepository<Product> productRepository, MNBService mnbstatService)
+        public StatService(ICRUDRepository<Product> productRepository, MNBService mnbstatService)
         {
-            this.stockRepository = stockRepository;
-            this.stockService = stockService;
             this.productRepository = productRepository;
             this.mnbstatService = mnbstatService;
         }
 
 
-        public async Task<Stats> MakeStatistics()
+        public async Task<StatsViewModel> MakeStatistics()
         {
             double totalWeight = await TotalWeightCounter();
-            int totalValue = await TotalValueCounter();
+            long totalValue = await TotalValueCounter();
             var maxQuantity = await MostItemsFinder();
             var heaviestProduct = await HeaviestItemFinder();
             var euroRate = await mnbstatService.GetEuroRate();
-            var totalEuroValue = Math.Round(totalValue / euroRate, 2);
-            Stats stats = new Stats
+            StatsViewModel stats = new StatsViewModel
             {
                 TotalWeight = totalWeight,
-                TotalValue = totalValue,
-                EuroValue = totalEuroValue,
+                TotalValue = totalValue.ToString("C0", CultureInfo.CreateSpecificCulture("hu-HU")),
+                EuroValue = (totalValue / euroRate).ToString("C2", CultureInfo.CreateSpecificCulture("de-DE")),
                 MaxQuantity = maxQuantity,
                 HeaviestProduct = heaviestProduct
             };
@@ -45,31 +41,31 @@ namespace WarehouseManagement.Services
 
         public async Task<double> TotalWeightCounter()
         {
-            var stock = await stockRepository.ReadAllAsync();
+            var products = await productRepository.ReadAllAsync();
             double totalWeight = 0;
-            for (int i = 0; i < stock.Count; i++)
+            for (int i = 0; i < products.Count; i++)
             {
-                totalWeight += stock[i].Product.Weight;
+                totalWeight += products[i].Weight * products[i].Quantity;
             }
 
             return totalWeight;
         }
 
-        public async Task<int> TotalValueCounter()
+        public async Task<long> TotalValueCounter()
         {
-            var stock = await stockRepository.ReadAllAsync();
-            int totalValue = 0;
-            for (int i = 0; i < stock.Count; i++)
+            var products = await productRepository.ReadAllAsync();
+            long totalValue = 0;
+            for (int i = 0; i < products.Count; i++)
             {
-                totalValue += stock[i].Product.Price;
+                totalValue += products[i].Price * products[i].Quantity;
             }
 
             return totalValue;
         }
 
-        public async Task<SortedStock> MostItemsFinder()
+        public async Task<Product> MostItemsFinder()
         {
-            var stock = await stockService.SortStockAsync();
+            var stock = await productRepository.ReadAllAsync();
             var stockSortedByQuantity = stock.OrderByDescending(o => o.Quantity).ToList();
             return stockSortedByQuantity[0];
         }
@@ -77,7 +73,13 @@ namespace WarehouseManagement.Services
         public async Task<Product> HeaviestItemFinder()
         {
             var products = await productRepository.ReadAllAsync();
-            var productsSortedByWeight = products.OrderByDescending(o => o.Weight).ToList();
+            List<Product> productsTotalWeight = new List<Product>();
+            foreach (var product in products)
+            {
+                productsTotalWeight.Add(new Product { Name = product.Name, Weight = product.Weight * product.Quantity });
+
+            }
+            var productsSortedByWeight = productsTotalWeight.OrderByDescending(o => o.Weight).ToList();
             return productsSortedByWeight[0];
         }
     }
